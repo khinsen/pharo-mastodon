@@ -7,7 +7,7 @@ a [Pharo](http://pharo.org) API for [mastodon](http://joinmastodon.org)
 
 ```Smalltalk
 Metacello new 
-  repository: 'github://estebanlm/pharo-mastodon/src';
+  repository: 'github://khinsen/pharo-mastodon/src';
   baseline: 'Mastodon';
   load.
 ```
