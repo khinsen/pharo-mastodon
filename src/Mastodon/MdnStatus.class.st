@@ -86,6 +86,17 @@ MdnStatus >> gtInspectorStatusIn: composite [
 		display: self content
 ]
 
+{ #category : #inspecting }
+MdnStatus >> gtItemsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Items';
+		priority: 1;
+		object: self json;
+		view: #gtItemsFor:;
+		yourself
+]
+
 { #category : #'accessing api' }
 MdnStatus >> id [
 	"The ID of the status"
