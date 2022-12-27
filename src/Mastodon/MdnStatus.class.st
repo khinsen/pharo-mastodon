@@ -182,6 +182,15 @@ MdnStatus >> muted [
 	^ self jsonAt: 'muted'
 ]
 
+{ #category : #accessing }
+MdnStatus >> parsedContentOrReblogContent [
+	"Quick hack!"
+	^ XMLDOMParser parse:
+		'<body>',
+			(self contentOrReblogContent copyReplaceAll: '<br>' with: '<br/>'),
+			'</body>'
+]
+
 { #category : #printing }
 MdnStatus >> printOn: stream [
 	super printOn: stream.
