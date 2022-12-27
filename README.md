@@ -2,6 +2,8 @@
 
 a [Pharo](http://pharo.org) API for [mastodon](http://joinmastodon.org)
 
+a fork of https://github.com/estebanlm/pharo-mastodon/ with added support for lists and inspector views for [Glamorous Toolkit](http://gtoolkit.com/)
+
 ## Installation 
 - You need Pharo 7.0
 
