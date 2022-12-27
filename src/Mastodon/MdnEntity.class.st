@@ -18,11 +18,11 @@ MdnEntity class >> json: aDictionary [
 	^ self new json: aDictionary
 ]
 
-{ #category : #accessing }
+{ #category : #inspecting }
 MdnEntity >> gtActionWebBrowseFor: anAction [
 	<gtAction>
 	|  button |
-	^ (self json at: #url ifAbsent: [ nil ])
+	^ self url
 		ifNil: [ anAction noAction ]
 		ifNotNil: [ :url |
 			anAction explicit stencil: [
@@ -79,4 +79,9 @@ MdnEntity >> jsonAt: aString put: anObject [
 	^ self json 
 		at: aString
 		put: anObject
+]
+
+{ #category : #accessing }
+MdnEntity >> url [
+	^ self json at: #url ifAbsent: [ nil ]
 ]

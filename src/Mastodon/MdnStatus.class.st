@@ -48,6 +48,12 @@ MdnStatus >> content [
 	^ self jsonAt: 'content'
 ]
 
+{ #category : #accessing }
+MdnStatus >> contentAsMarkdown [
+	^ String streamContents: [ :s |
+		self parsedContent acceptNodeVisitor: (MdnMarkdownWriter onStream: s )]
+]
+
 { #category : #'accessing api' }
 MdnStatus >> contentOrReblogContent [
 	| content |
@@ -89,15 +95,14 @@ MdnStatus >> favouritesCount [
 { #category : #accessing }
 MdnStatus >> gtContentFor: aView [
 	<gtView>
-	| content |
-	content := self contentOrReblogContent.
-	content ifEmpty: [ ^ aView empty ].
-	^ aView forward
+	^ aView explicit
 		title: 'Content';
 		priority: 1;
-		object: content;
-		view: #gtStringFor:;
-		yourself
+		disableAsync;
+		stencil: [
+			(LeTextSnippet new string: self contentAsMarkdown)
+				asPreviewElement ];
+			yourself
 ]
 
 { #category : #gtinspector }
@@ -167,7 +172,7 @@ MdnStatus >> muted [
 ]
 
 { #category : #accessing }
-MdnStatus >> parsedContentOrReblogContent [
+MdnStatus >> parsedContent [
 	"Quick hack!"
 	^ XMLDOMParser parse:
 		'<body>',

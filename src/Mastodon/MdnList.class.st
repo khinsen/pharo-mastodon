@@ -37,6 +37,17 @@ MdnList >> gtAccountsFor: aView [
 		yourself
 ]
 
+{ #category : #inspecting }
+MdnList >> gtTootsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Toots';
+		priority: 2;
+		object: [ self timeline ];
+		view: #gtTootsFor:;
+		yourself
+]
+
 { #category : #accessing }
 MdnList >> id [
 	^ self json at: #id
