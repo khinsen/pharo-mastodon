@@ -182,6 +182,11 @@ MdnServer >> urlApiApps [
 ]
 
 { #category : #accessing }
+MdnServer >> urlApiLists [
+	^ self urlApi / 'lists'
+]
+
+{ #category : #accessing }
 MdnServer >> urlApiStreaming [
 	^ self urlApi / 'streaming'
 ]

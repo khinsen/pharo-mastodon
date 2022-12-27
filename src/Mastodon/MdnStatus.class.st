@@ -87,22 +87,6 @@ MdnStatus >> favouritesCount [
 ]
 
 { #category : #accessing }
-MdnStatus >> gtActionWebBrowseFor: anAction [
-	<gtAction>
-	|  button |
-	^ self urlOrReblogUrl
-		ifNil: [ anAction noAction ]
-		ifNotNil: [ :url |
-			anAction explicit stencil: [
-			button := BrButton new.
-			button
-				aptitude: BrGlamorousButtonWithIconAptitude;
-				action:  [ WebBrowser openOn: url ];
-				icon: BrGlamorousIcons go asElement;
-				label: 'Open in OS' translated ] ]
-]
-
-{ #category : #accessing }
 MdnStatus >> gtContentFor: aView [
 	<gtView>
 	| content |
@@ -242,13 +226,8 @@ MdnStatus >> uri [
 
 { #category : #'accessing api' }
 MdnStatus >> url [
-	"URL to the status page (can be remote)"
-	^ self jsonAt: 'url'
-]
-
-{ #category : #'accessing api' }
-MdnStatus >> urlOrReblogUrl [
-	^ self url ifNil: [ self reblog ifNotNil: [ :r | r url ] ]
+	^ (self jsonAt: 'url')
+		ifNil: [ self reblog ifNotNil: [ :r | r url ] ]
 ]
 
 { #category : #'accessing api' }

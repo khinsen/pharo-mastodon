@@ -31,6 +31,16 @@ MdnLogin >> createdAt [
 	^ DateAndTime fromUnixTime: (self jsonAt: 'created_at')
 ]
 
+{ #category : #accessing }
+MdnLogin >> lists [
+	^ (self
+		get: self server urlApiLists
+		with: [ :request | 
+			request authorizationBearer: self accessToken ])
+		collect: [ :each | 
+			MdnList login: self json: each ]
+]
+
 { #category : #api }
 MdnLogin >> postStatus: aStringOrPostStatus [
 	^ aStringOrPostStatus asMastodonPostStatus

@@ -3,6 +3,8 @@ I'm an abstract front-end to query timelines.
 my children bring the concrete timelines taking the right address. 
 
 at start, a timeline is empty. It can be filled using #next (who will bring next statuses 20 to 20) or by #restart, which will reload from zero (performing a refresh of status, bringing new ones if there are).
+
+https://docs.joinmastodon.org/methods/timelines/
 "
 Class {
 	#name : #MdnTimeline,
@@ -36,6 +38,18 @@ MdnTimeline >> allSinceId: anId [
 		statuses := statuses, readedStatus.
 		id :=  readedStatus first id ].
 	^ statuses
+]
+
+{ #category : #inspecting }
+MdnTimeline >> gtTootsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Toots';
+		priority: 1;
+		items: self next;
+		column: 'Account' text: [ :each | each account acct ];
+		column: 'Time' text: [ :each | each createdAt asLocalStringYMDHM ];
+		yourself
 ]
 
 { #category : #initialization }

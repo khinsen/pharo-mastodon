@@ -19,6 +19,22 @@ MdnEntity class >> json: aDictionary [
 ]
 
 { #category : #accessing }
+MdnEntity >> gtActionWebBrowseFor: anAction [
+	<gtAction>
+	|  button |
+	^ (self json at: #url ifAbsent: [ nil ])
+		ifNil: [ anAction noAction ]
+		ifNotNil: [ :url |
+			anAction explicit stencil: [
+			button := BrButton new.
+			button
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				action:  [ WebBrowser openOn: url ];
+				icon: BrGlamorousIcons go asElement;
+				label: 'Open in OS' translated ] ]
+]
+
+{ #category : #accessing }
 MdnEntity >> gtItemsFor: aView [
 	<gtView>
 	^ aView forward
