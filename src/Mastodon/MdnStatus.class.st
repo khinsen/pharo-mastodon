@@ -1,7 +1,7 @@
 "
 I represent a mastodon status.
 
-https://github.com/tootsuite/documentation/blob/master/Using-the-API/API.md#status
+https://docs.joinmastodon.org/entities/Status/
 "
 Class {
 	#name : #MdnStatus,
@@ -49,6 +49,20 @@ MdnStatus >> content [
 ]
 
 { #category : #'accessing api' }
+MdnStatus >> contentOrReblogContent [
+	| content |
+	content := self jsonAt: 'content'.
+	content ifNotEmpty: [ ^ content ].
+	^ self reblog
+		ifNil: [ '' ]
+		ifNotNil: [ :r |
+			String streamContents: [ :s |
+				s << '<p>' << self account displayName << ' boosted:</p>'
+					<< Character cr
+					<< r contentOrReblogContent ] ].
+]
+
+{ #category : #'accessing api' }
 MdnStatus >> createdAt [
 	"The time the status was created"
 	^ DateAndTime fromString: (self jsonAt: 'created_at')
@@ -72,6 +86,36 @@ MdnStatus >> favouritesCount [
 	^ self jsonAt: 'favourites_count'
 ]
 
+{ #category : #accessing }
+MdnStatus >> gtActionWebBrowseFor: anAction [
+	<gtAction>
+	|  button |
+	^ self urlOrReblogUrl
+		ifNil: [ anAction noAction ]
+		ifNotNil: [ :url |
+			anAction explicit stencil: [
+			button := BrButton new.
+			button
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				action:  [ WebBrowser openOn: url ];
+				icon: BrGlamorousIcons go asElement;
+				label: 'Open in OS' translated ] ]
+]
+
+{ #category : #accessing }
+MdnStatus >> gtContentFor: aView [
+	<gtView>
+	| content |
+	content := self contentOrReblogContent.
+	content ifEmpty: [ ^ aView empty ].
+	^ aView forward
+		title: 'Content';
+		priority: 1;
+		object: content;
+		view: #gtStringFor:;
+		yourself
+]
+
 { #category : #gtinspector }
 MdnStatus >> gtDisplayString [
 	^ self account acct, ' at ', self createdAt asLocalStringYMDHM
@@ -84,17 +128,6 @@ MdnStatus >> gtInspectorStatusIn: composite [
 	composite text
 		title: self gtDisplayString;
 		display: self content
-]
-
-{ #category : #inspecting }
-MdnStatus >> gtItemsFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Items';
-		priority: 1;
-		object: self json;
-		view: #gtItemsFor:;
-		yourself
 ]
 
 { #category : #'accessing api' }
@@ -202,6 +235,11 @@ MdnStatus >> uri [
 MdnStatus >> url [
 	"URL to the status page (can be remote)"
 	^ self jsonAt: 'url'
+]
+
+{ #category : #'accessing api' }
+MdnStatus >> urlOrReblogUrl [
+	^ self url ifNil: [ self reblog ifNotNil: [ :r | r url ] ]
 ]
 
 { #category : #'accessing api' }

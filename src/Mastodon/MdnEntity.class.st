@@ -19,6 +19,17 @@ MdnEntity class >> json: aDictionary [
 ]
 
 { #category : #accessing }
+MdnEntity >> gtItemsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Items';
+		priority: 5;
+		object: self json;
+		view: #gtItemsFor:;
+		yourself
+]
+
+{ #category : #accessing }
 MdnEntity >> json [
 	^ json
 ]

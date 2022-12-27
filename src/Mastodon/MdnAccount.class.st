@@ -122,7 +122,7 @@ MdnAccount >> note [
 { #category : #printing }
 MdnAccount >> printOn: stream [ 
 	super printOn: stream.
-	stream << '(' << self acct << ')'
+	stream << '(' << self acct << ', ' << self displayName << ')'
 ]
 
 { #category : #api }
