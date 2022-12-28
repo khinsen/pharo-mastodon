@@ -31,6 +31,30 @@ MdnLogin >> createdAt [
 	^ DateAndTime fromUnixTime: (self jsonAt: 'created_at')
 ]
 
+{ #category : #inspecting }
+MdnLogin >> gtHomeTimelineFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Timeline';
+		priority: 0;
+		items: [ self timelineHome next ];
+		column: 'Time' text: #createdAt;
+		column: 'Author' text: [ :each | each account displayName ];
+		column: 'Account' text: [ :each | each account acct ];
+		yourself
+]
+
+{ #category : #inspecting }
+MdnLogin >> gtListsFor: aView [
+	<gtView>
+	^ aView list
+		title: 'Lists';
+		priority: 1;
+		items: [ self lists ];
+		itemText: #title;
+		yourself
+]
+
 { #category : #accessing }
 MdnLogin >> lists [
 	^ (self

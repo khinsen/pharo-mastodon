@@ -22,6 +22,6 @@ MdnLogo >> size [
 ]
 
 { #category : #accessing }
-MdnLogo >> size: anObject [
-	size := anObject
+MdnLogo >> size: anInteger [
+	size := anInteger
 ]

@@ -118,6 +118,20 @@ MdnServer >> loginUsername: aName password: aPassword scopes: aScopes [
 		yourself
 ]
 
+{ #category : #api }
+MdnServer >> loginWithStoredCredentials [
+	| aName aPassword credentialFile |
+	credentialFile := FileLocator preferences / 'pharo' / 'mastodon-login.txt'.
+	credentialFile exists ifTrue: [
+		| nameAndPassword |
+		nameAndPassword := $: split: credentialFile contents trim.
+		aName := nameAndPassword first.
+		aPassword := nameAndPassword second ].
+	^ self
+		loginUsername: aName
+		password: aPassword
+]
+
 { #category : #printing }
 MdnServer >> printOn: stream [ 
 	super printOn: stream.
