@@ -39,8 +39,8 @@ MdnLogin >> gtHomeTimelineFor: aView [
 		priority: 0;
 		items: [ self timelineHome next ];
 		column: 'Time' text: #createdAt;
-		column: 'Author' text: [ :each | each account displayName ];
-		column: 'Account' text: [ :each | each account acct ];
+		column: 'Author' text: [ :each | each originAccount displayName ];
+		column: 'Account' text: [ :each | each originAccount acct ];
 		yourself
 ]
 

@@ -63,7 +63,11 @@ MdnStatus >> contentOrReblogContent [
 		ifNil: [ '' ]
 		ifNotNil: [ :r |
 			String streamContents: [ :s |
-				s << '<p>' << self account displayName << ' boosted:</p>'
+				| name |
+				name := self account displayName.
+				name ifEmpty: [ name := self account acct ].
+				s << '<p><a href="' << self account url
+					<< '">' << name << '</a> boosted:</p>'
 					<< Character cr
 					<< '<br/>'
 					<< Character cr
@@ -171,6 +175,13 @@ MdnStatus >> mentions [
 MdnStatus >> muted [
 	"Whether the authenticated user has muted the conversation this status from"
 	^ self jsonAt: 'muted'
+]
+
+{ #category : #accessing }
+MdnStatus >> originAccount [
+	^ self reblog
+		ifNil: [ self account ]
+		ifNotNil: [  :r | r account ]
 ]
 
 { #category : #accessing }
