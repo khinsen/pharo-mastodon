@@ -22,7 +22,13 @@ MdnAttachment >> markdownOn: aStream [
 		<< '[preview](' << self previewUrl << ')'
 		<< Character space
 		<< '[original](' << self remoteUrl << ')'
-		<< Character cr
+		<< Character cr.
+	self type = 'image' ifTrue: [
+		aStream
+			<< '![preview]('
+			<< self previewUrl
+			<< $)
+			<< Character cr ]
 ]
 
 { #category : #'accessing api' }
