@@ -51,7 +51,10 @@ MdnStatus >> content [
 { #category : #accessing }
 MdnStatus >> contentAsMarkdown [
 	^ String streamContents: [ :s |
-		self parsedContent acceptNodeVisitor: (MdnMarkdownWriter onStream: s )]
+		self parsedContent acceptNodeVisitor: (MdnMarkdownWriter onStream: s ).
+		self mediaAttachments do: [ :each |
+			s cr.
+			each markdownOn: s] ]
 ]
 
 { #category : #'accessing api' }

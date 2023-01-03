@@ -15,6 +15,16 @@ MdnAttachment >> id [
 	^ self jsonAt: 'id'
 ]
 
+{ #category : #rendering }
+MdnAttachment >> markdownOn: aStream [
+	aStream
+		<< self type << ': '
+		<< '[preview](' << self previewUrl << ')'
+		<< Character space
+		<< '[original](' << self remoteUrl << ')'
+		<< Character cr
+]
+
 { #category : #'accessing api' }
 MdnAttachment >> meta [
 	"'small' and 'original' containing: width, height, size, aspect"
