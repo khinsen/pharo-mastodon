@@ -65,6 +65,8 @@ MdnStatus >> contentOrReblogContent [
 			String streamContents: [ :s |
 				s << '<p>' << self account displayName << ' boosted:</p>'
 					<< Character cr
+					<< '<br/>'
+					<< Character cr
 					<< r contentOrReblogContent ] ].
 ]
 
