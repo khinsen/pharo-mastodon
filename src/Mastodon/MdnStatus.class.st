@@ -66,11 +66,12 @@ MdnStatus >> contentOrReblogContent [
 		ifNil: [ '' ]
 		ifNotNil: [ :r |
 			String streamContents: [ :s |
-				| name |
-				name := self account displayName.
-				name ifEmpty: [ name := self account acct ].
-				s << '<p><a href="' << self account url
-					<< '">' << name << '</a> boosted:</p>'
+				s << '<p><a href="' << self account url << '">'
+					<< (self account displayName ifEmpty: [ self account acct ])
+					<< '</a> boosted toot by '
+					<< '<a href="' << r account url << '">'
+					<< (r account displayName ifEmpty: [ r account acct ])
+					<< '</a>:</p>'
 					<< Character cr
 					<< '<br/>'
 					<< Character cr
