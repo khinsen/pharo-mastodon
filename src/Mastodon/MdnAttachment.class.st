@@ -18,7 +18,7 @@ MdnAttachment >> id [
 { #category : #rendering }
 MdnAttachment >> markdownOn: aStream [
 	aStream
-		<< self type << ': '
+		<< '*' << self type << ':* '
 		<< '[preview](' << self previewUrl << ')'
 		<< Character space
 		<< '[original](' << self remoteUrl << ')'

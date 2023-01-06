@@ -43,6 +43,13 @@ MdnMarkdownWriter >> visitElementNameda: anElement [
 ]
 
 { #category : #visiting }
+MdnMarkdownWriter >> visitElementNamedb: anElement [
+	stream << '**'.
+	super visitElement: anElement.
+	stream << '**'
+]
+
+{ #category : #visiting }
 MdnMarkdownWriter >> visitElementNamedbr: anElement [
 	stream cr
 ]

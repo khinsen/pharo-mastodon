@@ -52,15 +52,25 @@ MdnStatus >> content [
 MdnStatus >> contentAsMarkdown [
 	^ String streamContents: [ :s |
 		self parsedContent acceptNodeVisitor: (MdnMarkdownWriter onStream: s ).
+		s cr.
 		self mediaAttachments do: [ :each |
 			s cr.
 			each markdownOn: s] ]
 ]
 
 { #category : #'accessing api' }
-MdnStatus >> contentOrReblogContent [
-	| content |
-	content := self jsonAt: 'content'.
+MdnStatus >> createdAt [
+	"The time the status was created"
+	^ DateAndTime fromString: (self jsonAt: 'created_at')
+]
+
+{ #category : #'accessing api' }
+MdnStatus >> displayedContent [
+	| spoiler content |
+	spoiler := self spoilerText.
+	content := self content.
+	spoiler ifNotEmpty: [
+		^ '<b>Spoiler:</b> ', spoiler, '<br/><br/>', content ].
 	content ifNotEmpty: [ ^ content ].
 	^ self reblog
 		ifNil: [ '' ]
@@ -75,13 +85,7 @@ MdnStatus >> contentOrReblogContent [
 					<< Character cr
 					<< '<br/>'
 					<< Character cr
-					<< r contentOrReblogContent ] ].
-]
-
-{ #category : #'accessing api' }
-MdnStatus >> createdAt [
-	"The time the status was created"
-	^ DateAndTime fromString: (self jsonAt: 'created_at')
+					<< r displayedContent ] ].
 ]
 
 { #category : #'accessing api' }
@@ -193,7 +197,7 @@ MdnStatus >> parsedContent [
 	"Quick hack!"
 	^ XMLDOMParser parse:
 		'<body>',
-			(self contentOrReblogContent copyReplaceAll: '<br>' with: '<br/>'),
+			(self displayedContent copyReplaceAll: '<br>' with: '<br/>'),
 			'</body>'
 ]
 
