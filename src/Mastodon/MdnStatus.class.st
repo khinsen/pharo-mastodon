@@ -70,17 +70,17 @@ MdnStatus >> displayedContent [
 	spoiler := self spoilerText.
 	content := self content.
 	spoiler ifNotEmpty: [
-		^ '<b>Spoiler:</b> ', spoiler, '<br/><br/>', content ].
+		^ '<b>Spoiler:</b> ', spoiler asXMLString, '<br/><br/>', content ].
 	content ifNotEmpty: [ ^ content ].
 	^ self reblog
 		ifNil: [ '' ]
 		ifNotNil: [ :r |
 			String streamContents: [ :s |
 				s << '<p><a href="' << self account url << '">'
-					<< (self account displayName ifEmpty: [ self account acct ])
+					<< ((self account displayName ifEmpty: [ self account acct ]) asXMLString printString)
 					<< '</a> boosted toot by '
 					<< '<a href="' << r account url << '">'
-					<< (r account displayName ifEmpty: [ r account acct ])
+					<< ((r account displayName ifEmpty: [ r account acct ]) asXMLString printString)
 					<< '</a>:</p>'
 					<< Character cr
 					<< '<br/>'
