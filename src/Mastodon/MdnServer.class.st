@@ -196,6 +196,11 @@ MdnServer >> urlApiApps [
 ]
 
 { #category : #accessing }
+MdnServer >> urlApiBookmarks [
+	^ self urlApi / 'bookmarks'
+]
+
+{ #category : #accessing }
 MdnServer >> urlApiLists [
 	^ self urlApi / 'lists'
 ]

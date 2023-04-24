@@ -26,9 +26,29 @@ MdnLogin >> application [
 	^ self server application
 ]
 
+{ #category : #accessing }
+MdnLogin >> bookmarks [
+	^ (self
+		get: self server urlApiBookmarks
+		with: [ :request | 
+			request authorizationBearer: self accessToken ])
+		collect: [ :each | 
+			MdnStatus login: self json: each ]
+]
+
 { #category : #'accessing api' }
 MdnLogin >> createdAt [
 	^ DateAndTime fromUnixTime: (self jsonAt: 'created_at')
+]
+
+{ #category : #inspecting }
+MdnLogin >> gtBookmarksFor: aView [
+	<gtView>
+	^ aView list
+		title: 'Bookmarks';
+		priority: 2;
+		items: [ self bookmarks ];
+		yourself
 ]
 
 { #category : #inspecting }
